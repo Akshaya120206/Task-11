@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather App</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #a0dabf;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+
+    .container {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .weather-box {
+      width: 90%;
+      max-width: 800px;
+      background-color: #94d3ac;
+      padding: 40px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .left {
+      font-size: 24px;
+    }
+
+    .left .temp {
+      font-size: 48px;
+      font-weight: bold;
+    }
+
+    .left .city {
+      font-size: 28px;
+      margin-top: 5px;
+    }
+
+    .left .time {
+      font-size: 20px;
+      margin-top: 5px;
+    }
+
+    .left .desc {
+      font-size: 14px;
+      margin-top: 5px;
+      opacity: 0.7;
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .right input {
+      padding: 8px 10px;
+      font-size: 16px;
+      border: none;
+      border-bottom: 2px solid white;
+      background-color: transparent;
+      color: white;
+      outline: none;
+    }
+
+    .right input::placeholder {
+      color: #f0f0f0aa;
+    }
+
+    .right button {
+      padding: 8px 14px;
+      background-color: white;
+      color: #333;
+      font-weight: bold;
+      border-radius: 20px;
+      border: 1px solid #aaa;
+      cursor: pointer;
+    }
+
+    .right button:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="weather-box">
+      <div class="left" id="weather">
+        <div class="temp">--</div>
+        <div class="city">--</div>
+        <div class="time">--</div>
+        <div class="desc">--</div>
+      </div>
+      <div class="right">
+        <input type="text" id="cityInput" placeholder="Enter city" />
+        <button onclick="searchWeather()">Search Button</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const fakeData = {
+      "Delhi": { temp: 36, condition: "Sunny" },
+      "Mumbai": { temp: 32, condition: "Humid" },
+      "Bangalore": { temp: 26, condition: "Cloudy" },
+      "Chennai": { temp: 34, condition: "Hot" },
+      "Kolkata": { temp: 30, condition: "Rainy" },
+      "Hyderabad": { temp: 33, condition: "Clear" },
+      "Pune": { temp: 28, condition: "Cool" },
+      "Ahmedabad": { temp: 35, condition: "Sunny" },
+      "Jaipur": { temp: 38, condition: "Dry" },
+      "Lucknow": { temp: 31, condition: "Cloudy" },
+      "Indore": { temp: 29, condition: "Clear" },
+      "Bhopal": { temp: 30, condition: "Hazy" },
+      "Kanpur": { temp: 33, condition: "Windy" },
+      "Nagpur": { temp: 35, condition: "Hot" },
+      "Surat": { temp: 34, condition: "Humid" },
+    };
+
+    function updateWeather(city) {
+      const weatherBox = document.getElementById("weather");
+      const data = fakeData[city];
+
+      if (!data) {
+        weatherBox.innerHTML = `
+          <div class="temp">--</div>
+          <div class="city">City Not Found</div>
+          <div class="time">--</div>
+          <div class="desc">Try again</div>
+        `;
+        return;
+      }
+
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const day = days[now.getDay()];
+
+      weatherBox.innerHTML = `
+        <div class="temp">${data.temp}°</div>
+        <div class="city">${city}</div>
+        <div class="time">${hours}:${minutes} ${day}</div>
+        <div class="desc">${data.condition}</div>
+      `;
+    }
+
+    function searchWeather() {
+      const city = document.getElementById("cityInput").value.trim();
+      if (city) {
+        updateWeather(city);
+      }
+    }
+
+    // Show default city
+    updateWeather("Bhopal");
+  </script>
+</body>
+</html>
